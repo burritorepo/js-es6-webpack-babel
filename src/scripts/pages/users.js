@@ -1,12 +1,13 @@
 "use strict";
-import "../../scss/pages/_users.scss";
+import "../../styles/pages/_users.scss";
+
 class Users {
     constructor() {
         this.urlBase = 'https://reqres.in/api';
         this.init();
     }
 
-    getData(url, query) {
+    getData(url,query) {
         return fetch(`${this.urlBase}/${url}${query}`)
     };
 
@@ -16,6 +17,8 @@ class Users {
             let users = await response.json();
 
             this.insertDom(this.makeTemplate(users));
+            this.makePagination(users);
+
         } catch (err) {
             this.handleError(err);
         }
@@ -30,22 +33,32 @@ class Users {
         let usersArr = [];
         usersArr = listUsers.map((user) => {
             let template = `<div class="col"><div class="card">
-                <img src="${user.avatar}" class="card-img-top" alt="${user.first_name}">
-                <div class="card-body">
-                    <h5 class="card-title">${user.first_name}</h5>
-                    <p class="card-text">${user.last_name}</p>
-                    <a href="/users/${user.id}" class="btn btn-primary">Detail</a>
-                </div>
-            </div></div>`;
+                    <img src="${user.avatar}" class="card-img-top" alt="${user.first_name}">
+                    <div class="card-body">
+                        <h5 class="card-title">${user.first_name}</h5>
+                        <p class="card-text">${user.last_name}</p>
+                        <a href="/users/${user.id}" class="btn btn-primary">Detail</a>
+                    </div>
+                </div></div>`;
 
             return template;
-        })
+    })
 
-        return `<div class="page page-users"><div class="container d-flex flex-nowrap">${usersArr.join('')}</div></div>`;
+    return `<div class="page page-users"><div class="container d-flex flex-nowrap">${usersArr.join('')}</div></div>`;
     }
 
-    makePagination() {
-        
+    makePagination(users) {
+        let button = document.querySelector('.pagination');
+        let pages = users.total_pages; 
+        let currentpage = users.page;
+        button.addEventListener('click', (e) => {
+            console.log(e.target);
+            for (let page in pages) {
+                if (query == page) {
+                }
+            }
+        })
+        return querycurrent;
     }
 
     insertDom(element) {
@@ -53,8 +66,9 @@ class Users {
     }
 
     init() {
-        this.handleData(this.getData('users', '?page=2'));
+    this.handleData(this.getData('users', '?page=2'));
     }
 }
+
 
 let users = new Users();
